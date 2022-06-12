@@ -76,7 +76,7 @@ hide_streamlit_style = """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 model = keras.models.load_model('fcvmodel.h5')
-dbfood = pd.read_csv('dbfood.csv',sep=";")
+dbfood = pd.read_csv('dbfood.csv',sep=",")
 food = dbfood['nama'].tolist()
 
 def getPrediction(data,model):
