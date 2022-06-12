@@ -1,0 +1,35 @@
+﻿nama;kkal;lemak;karbohidrat;protein;risiko;skor
+Alpukat;322;29.47;17.15;4.02;Tinggi;372.64
+Grapes;3;0.01;0.9;0.04;Aman;3.95
+Apple;72;0.23;19.06;0.36;Aman;91.65
+Chicken;185.5;9.7925;3.9175;19.1175;Sedang;218.33
+Bakso;388;16.62;40.05;20.24;Tinggi;464.91
+Bubur Ayam;372;12.39;36.12;27.56;Tinggi;448.07
+Chicken Nugget;185.5;9.7925;3.9175;19.1175;Sedang;218.33
+Cumi-Cumi;52;0.79;1.76;8.88;Aman;63.43
+Gado-Gado;318;17.86;26.28;17.22;Tinggi;379.36
+Gudeg;306;11.34;54.32;4.37;Tinggi;376.03
+Hamburger;240;8;31;12;Tinggi;291
+Ikan Kembung;142;7.96;0;16.42;Sedang;166.38
+Cat Fish;142;7.96;0;16.42;Sedang;166.38
+Orange;62;0.16;15.39;1.23;Aman;78.78
+Fried Fries;192;9.84;24.96;2.44;Sedang;229.24
+Kerang;184;9.32;8.92;15.42;Sedang;217.66
+Ketoprak;402;15.34;50.48;15.59;Bahaya;483.41
+Mango;107;0.45;28.05;0.84;Sedang;136.34
+Fried Noodle;350;12;52;8;Tinggi;422
+Fried Rice;250;9.28;31.38;9.39;Tinggi;300.05
+Pempek;234;6.24;28.29;15.13;Tinggi;283.66
+Pepaya;55;0.2;13.73;0.85;Aman;69.78
+Banana;105;0.39;26.95;1.29;Sedang;133.63
+Rawon;288;17.84;8.38;23.13;Tinggi;337.35
+Satay;300;17.73333333;8.233333333;28.23333333;Tinggi;354.2
+Sayur Asam;80;2.76;12.9;3.18;Aman;98.84
+Siomay;103;1.71;12.23;9.2;Sedang;126.14
+Soto;356.75;18.42;24.06;23.915;Tinggi;423.15
+Chicken Soup;75;2.46;9.35;4.05;Aman;90.86
+Milk;122;4.88;11.49;8.03;Sedang;146.4
+Fried Egg;93;7.33;0.42;6.48;Aman;107.23
+Boiled Egg;77;5.28;0.56;6.26;Aman;89.1
+Tongseng;317;22.13;12.03;20.21;Tinggi;371.37
+Udang;122;2;1.05;23.45;Sedang;148.5

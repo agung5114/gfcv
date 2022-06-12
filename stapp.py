@@ -10,51 +10,6 @@ import joblib
 import operator
 import sys
 
-import requests
-from recipe_scrapers import scrape_html, scrape_me
-import re
-from pygsearch import gsearch
-
-# CSS to inject contained in a string
-hide_table_row_index = """
-            <style>
-            tbody th {display:none}
-            .blank {display:none}
-            </style>
-            """
-
-# Inject CSS with Markdown
-st.markdown(hide_table_row_index, unsafe_allow_html=True)
-
-# Display a static table
-
-def searchLink(foodname):
-    search = gsearch(f"{foodname} site=allrecipes.com -allrecipes.com/recipes  -allrecipes.com/gallery",1)
-    result1 = str(search.results[0])
-    text = result1.split("link=",1)[1]
-    link = text.split(">",1)[0]
-    return link[1:-2]
-
-# rd = searchLink('rendang')
-# print(rd)
-
-def scrapeRecipe(url):
-    # url = f"https://www.allrecipes.com/recipe/72567/panna-cotta/"
-    html = requests.get(url).content
-    scraper = scrape_html(html=html, org_url=url)
-    # title = scraper.title()
-    # total_time=scraper.total_time()
-    # yields= scraper.yields()
-    ingredients =scraper.ingredients()
-    ingredient = []
-    for i in ingredients:
-        ingredient.append(re.sub (r'([^a-zA-Z ]+?)', '', i))
-
-    instructions = scraper.instructions()
-    # links = scraper.links()
-    nutrients = scraper.nutrients()
-    return {'ingredient':ingredient,'ingredients':ingredients,'instructions':instructions,'nutrients':nutrients}
-
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.mobilenet import preprocess_input
@@ -69,14 +24,14 @@ primaryColor="purple"
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
-            header {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-model = keras.models.load_model('model/grabcv.h5')
-food = ['beefburger','beefcurry','friedchicken','lambskewer','panacota','springsalad']
+model = keras.models.load_model('fcvmodel.h5')
+dbfood = pd.read_csv('dbfood.csv',sep=";")
+food = dbfood['nama'].tolist()
 
 def getPrediction(data,model):
     img = Image.open(data)
@@ -91,61 +46,77 @@ def getPrediction(data,model):
     for i in range(len(label)):
         # prob.append(i)
         prob.append(np.round(label[i]*100,2))
-    data = {'Food': food, 'Prob': prob}
-    # return data
+    data = {'nama': food, 'prob': prob}
     dfhasil = pd.DataFrame.from_dict(data)
-
-    dfhasil['Probability'] = dfhasil.apply(lambda x: f"{x['Prob']}%", axis=1)
-    top3 = dfhasil.nlargest(3, 'Prob')
+    top3 = dfhasil.nlargest(3, 'prob')
     # top = dict(zip(food, prob))
     # top3 = dict(sorted(top.items(), key=operator.itemgetter(1), reverse=True)[:3])
     return top3
 
 # st.set_page_config(layout='wide')
 
-# def main():
-st.subheader("Food Ai Vision")
-with st.expander('Open Camera'):
-    data1 = st.camera_input('')
-with st.expander('Upload A Photo'):
-    data2 = st.file_uploader('')
+def main():
+    st.subheader("Heal - Food Analyzer")
+    with st.expander('Open Camera'):
+        data1 = st.camera_input('')
+    with st.expander('Upload A Photo'):
+        data2 = st.file_uploader('')
 
-if data1 != None:
-    data = data1
-elif data2 != None:
-    data = data2
-else:
-    data = None
+    if data1 != None:
+        data = data1
+    elif data2 != None:
+        data = data2
+    else:
+        data = None
 
-if data == None:
-    st.write('Please Upload Photo of Food')
-else:
-    img = Image.open(data)
-    newsize = (280, 230)
-    image = img.resize(newsize)
-    c1,c2 = st.columns((1,1))
-    with c1:
+    if data == None:
+        st.write('Please Upload Photo of Food')
+    else:
+        img = Image.open(data)
+        newsize = (280, 230)
+        image = img.resize(newsize)
         st.image(image)
-    with c2:
+
 #     if st.button('Jalankan Prediksi'):
         hasil = getPrediction(data,model)
-        hasil = hasil[['Food','Probability']]
-        hasil.set_index('Food', inplace=True)
-        st.write('Prediction')
-        st.dataframe(hasil)
-    # st.write(f'prediction: {hasil}')
-    predicted = hasil.index[0]
-    link = searchLink(predicted)
-    recipe = scrapeRecipe(link)
-    
-    st.write(predicted.upper())
-    st.write(link)
-    st.write('Ingredients')
-    st.table(recipe['ingredients'])
-    st.write('Instructions')
-    st.write(recipe['instructions'])
-    nutrisi=recipe['nutrients']
-    st.write(f'Nutrients:{nutrisi}')
+        # dfhasil = pd.DataFrame.from_dict(hasil)
+        # keys = list(hasil.keys())
+        top = hasil.nlargest(1, 'prob')
+        # dbkal = dbfood[dbfood['nama'].isin(keys)]
+        dfk = pd.merge(hasil,dbfood,how='left',on='nama')
+        dfk['Protein'] = dfk['protein']*dfk['prob']/100
+        dfk['Lemak'] = dfk['lemak']*dfk['prob']/100
+        dfk['Karbohidrat'] = dfk['karbohidrat']*dfk['prob']/100
+        dfk['Kkal'] = dfk['kkal']*dfk['prob']/100
+        dfk['Score'] = dfk['skor']*dfk['prob']/100
+        tingkat = dfk['Score'].tolist()
+        total= tingkat[0]+tingkat[1]+tingkat[2]
+        risiko = None
+        if total >450:
+            risiko = 'High Risk to Consume'
+        elif total >250:
+            risiko = 'Medium Risk to Consume'
+        elif total >105:
+            risiko = 'Low Risk to Consume'
+        else:
+            risiko = 'Safe to Consume'
+        top1 = top['nama'].tolist()
+        st.subheader(top1[0])
+#         st.write(f"Confidence: {top['prop'].tolist()[0]}")
+#         out = '''<h3>f'{str(top1[0]}'<h3>'''
+#         st.markdown(f'{str(top1[0])}', unsafe_allow_html=True)
+        st.write(f'Risk for who have Diabetes/Heart Disease: {risiko}')
+        # st.write(dfk)
+        a = dfk['Kkal'].sum()
+        b = dfk['Lemak'].sum()
+        c = dfk['Karbohidrat'].sum()
+        d = dfk['Protein'].sum()
+        st.write(f'Calorie: {np.round(a)} Kkal')
+        st.write(f'Fat: {np.round(b)} gr')
+        st.write(f'Carbohydrate: {np.round(c)} gr')
+        st.write(f'Protein: {np.round(d)} gr')
 
-# if __name__=='__main__':
-#     main()
+        
+
+if __name__=='__main__':
+    main()
