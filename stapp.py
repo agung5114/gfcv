@@ -132,7 +132,6 @@ else:
         hasil = getPrediction(data,model)
         hasil = hasil[['Food','Probability']]
         hasil.set_index('Food', inplace=True)
-        st.write('Prediction')
         st.dataframe(hasil)
         top = hasil.index[0]
         # dbkal = dbfood[dbfood['nama'].isin(keys)]
@@ -165,6 +164,7 @@ else:
         st.write(f'Fat: {np.round(b)} gr')
         st.write(f'Protein: {np.round(d)} gr')
     # st.write(f'prediction: {hasil}')
+    st.write('Food Prediction')
     predicted = hasil.index[0]
     link = searchLink(predicted)
     recipe = scrapeRecipe(link)
