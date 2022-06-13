@@ -52,8 +52,8 @@ def scrapeRecipe(url):
 
     instructions = scraper.instructions()
     # links = scraper.links()
-    nutrients = scraper.nutrients()
-    return {'ingredient':ingredient,'ingredients':ingredients,'instructions':instructions,'nutrients':nutrients}
+#     nutrients = scraper.nutrients()
+    return {'ingredient':ingredient,'ingredients':ingredients,'instructions':instructions}
 
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -175,9 +175,9 @@ else:
     st.table(recipe['ingredients'])
     st.write('Instructions')
     st.write(recipe['instructions'])
-    nutrisi=recipe['nutrients']
-    st.write('Nutrients')
-    st.write(f'Food Nutrients:{nutrisi}')
+#     nutrisi=recipe['nutrients']
+#     st.write('Nutrients')
+#     st.write(f'Food Nutrients:{nutrisi}')
 
 # if __name__=='__main__':
 #     main()
