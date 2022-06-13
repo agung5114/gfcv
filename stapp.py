@@ -151,12 +151,12 @@ else:
             risiko = 'Low Risk to Consume'
         else:
             risiko = 'Safe to Consume'
-        top1 = top['nama'].tolist()
-        st.subheader(top1[0])
+#         top1 = top['nama'].tolist()
+#         st.subheader(top1[0])
 #         st.write(f"Confidence: {top['prop'].tolist()[0]}")
 #         out = '''<h3>f'{str(top1[0]}'<h3>'''
 #         st.markdown(f'{str(top1[0])}', unsafe_allow_html=True)
-        st.write(f'Risk for who have Diabetes/Heart Disease: {risiko}')
+        st.write(f'Risk for Diabetes/Heart Disease: {risiko}')
         # st.write(dfk)
         a = dfk['kkal'].sum()
         b = dfk['lemak'].sum()
