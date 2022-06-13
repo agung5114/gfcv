@@ -138,7 +138,7 @@ else:
         # dbkal = dbfood[dbfood['nama'].isin(keys)]
 #         dfk = pd.merge(hasil,dbfood,how='left',on='nama')
         dfk = dbfood[dbfood['nama']==top]
-        prob = hasil['Probability].tolist()
+        prob = hasil['Probability'].tolist()
         dfk['Score'] = dfk['skor']*prob[0]
         tingkat = dfk['Score'].tolist()
         total= tingkat[0]+tingkat[1]+tingkat[2]
