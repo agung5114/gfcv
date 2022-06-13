@@ -141,7 +141,7 @@ else:
         prob = hasil['Probability'].tolist()
         dfk['Score'] = dfk['skor']
         tingkat = dfk['Score'].tolist()
-        total= tingkat[0]+tingkat[1]+tingkat[2]
+        total= tingkat[0]
         risiko = None
         if total >450:
             risiko = 'High Risk to Consume'
