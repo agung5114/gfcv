@@ -144,13 +144,13 @@ else:
         total= tingkat[0]
         risiko = None
         if total >450:
-            risiko = 'High Risk to Consume'
+            risiko = 'High'
         elif total >250:
-            risiko = 'Medium Risk to Consume'
+            risiko = 'Medium'
         elif total >105:
-            risiko = 'Low Risk to Consume'
+            risiko = 'Low'
         else:
-            risiko = 'Safe to Consume'
+            risiko = 'Safe'
 #         top1 = top['nama'].tolist()
 #         st.subheader(top1[0])
 #         st.write(f"Confidence: {top['prop'].tolist()[0]}")
