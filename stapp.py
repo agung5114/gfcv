@@ -139,7 +139,7 @@ else:
 #         dfk = pd.merge(hasil,dbfood,how='left',on='nama')
         dfk = dbfood[dbfood['nama']==top]
         prob = hasil['Probability'].tolist()
-        dfk['Score'] = dfk['skor']*prob[0]
+        dfk['Score'] = dfk['skor']
         tingkat = dfk['Score'].tolist()
         total= tingkat[0]+tingkat[1]+tingkat[2]
         risiko = None
