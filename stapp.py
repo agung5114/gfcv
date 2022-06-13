@@ -134,9 +134,10 @@ else:
         hasil.set_index('Food', inplace=True)
         st.write('Prediction')
         st.dataframe(hasil)
-        top = hasil.nlargest(1, 'prob')
+        top = hasil.index[0]
         # dbkal = dbfood[dbfood['nama'].isin(keys)]
-        dfk = pd.merge(hasil,dbfood,how='left',on='nama')
+#         dfk = pd.merge(hasil,dbfood,how='left',on='nama')
+        dfk = dbfood[dbfood['nama']==top]
         dfk['Protein'] = dfk['protein']*dfk['prob']/100
         dfk['Lemak'] = dfk['lemak']*dfk['prob']/100
         dfk['Karbohidrat'] = dfk['karbohidrat']*dfk['prob']/100
