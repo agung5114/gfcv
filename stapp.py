@@ -134,6 +134,40 @@ else:
         hasil.set_index('Food', inplace=True)
         st.write('Prediction')
         st.dataframe(hasil)
+        top = hasil.nlargest(1, 'prob')
+        # dbkal = dbfood[dbfood['nama'].isin(keys)]
+        dfk = pd.merge(hasil,dbfood,how='left',on='nama')
+        dfk['Protein'] = dfk['protein']*dfk['prob']/100
+        dfk['Lemak'] = dfk['lemak']*dfk['prob']/100
+        dfk['Karbohidrat'] = dfk['karbohidrat']*dfk['prob']/100
+        dfk['Kkal'] = dfk['kkal']*dfk['prob']/100
+        dfk['Score'] = dfk['skor']*dfk['prob']/100
+        tingkat = dfk['Score'].tolist()
+        total= tingkat[0]+tingkat[1]+tingkat[2]
+        risiko = None
+        if total >450:
+            risiko = 'High Risk to Consume'
+        elif total >250:
+            risiko = 'Medium Risk to Consume'
+        elif total >105:
+            risiko = 'Low Risk to Consume'
+        else:
+            risiko = 'Safe to Consume'
+        top1 = top['nama'].tolist()
+        st.subheader(top1[0])
+#         st.write(f"Confidence: {top['prop'].tolist()[0]}")
+#         out = '''<h3>f'{str(top1[0]}'<h3>'''
+#         st.markdown(f'{str(top1[0])}', unsafe_allow_html=True)
+        st.write(f'Risk for who have Diabetes/Heart Disease: {risiko}')
+        # st.write(dfk)
+        a = dfk['Kkal'].sum()
+        b = dfk['Lemak'].sum()
+        c = dfk['Karbohidrat'].sum()
+        d = dfk['Protein'].sum()
+        st.write(f'Calorie: {np.round(a)} Kkal')
+        st.write(f'Fat: {np.round(b)} gr')
+        st.write(f'Carbohydrate: {np.round(c)} gr')
+        st.write(f'Protein: {np.round(d)} gr')
     # st.write(f'prediction: {hasil}')
     predicted = hasil.index[0]
     link = searchLink(predicted)
