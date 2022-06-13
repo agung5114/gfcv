@@ -138,11 +138,8 @@ else:
         # dbkal = dbfood[dbfood['nama'].isin(keys)]
 #         dfk = pd.merge(hasil,dbfood,how='left',on='nama')
         dfk = dbfood[dbfood['nama']==top]
-        dfk['Protein'] = dfk['protein']*dfk['prob']/100
-        dfk['Lemak'] = dfk['lemak']*dfk['prob']/100
-        dfk['Karbohidrat'] = dfk['karbohidrat']*dfk['prob']/100
-        dfk['Kkal'] = dfk['kkal']*dfk['prob']/100
-        dfk['Score'] = dfk['skor']*dfk['prob']/100
+        prob = hasil['Probability].tolist()
+        dfk['Score'] = dfk['skor']*prob[0]
         tingkat = dfk['Score'].tolist()
         total= tingkat[0]+tingkat[1]+tingkat[2]
         risiko = None
@@ -161,13 +158,11 @@ else:
 #         st.markdown(f'{str(top1[0])}', unsafe_allow_html=True)
         st.write(f'Risk for who have Diabetes/Heart Disease: {risiko}')
         # st.write(dfk)
-        a = dfk['Kkal'].sum()
-        b = dfk['Lemak'].sum()
-        c = dfk['Karbohidrat'].sum()
-        d = dfk['Protein'].sum()
+        a = dfk['kkal'].sum()
+        b = dfk['lemak'].sum()
+        d = dfk['protein'].sum()
         st.write(f'Calorie: {np.round(a)} Kkal')
         st.write(f'Fat: {np.round(b)} gr')
-        st.write(f'Carbohydrate: {np.round(c)} gr')
         st.write(f'Protein: {np.round(d)} gr')
     # st.write(f'prediction: {hasil}')
     predicted = hasil.index[0]
