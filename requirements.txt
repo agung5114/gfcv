@@ -47,7 +47,9 @@ jupyter-core==4.7.1
 jupyterlab-pygments==0.1.2
 jupyterlab-widgets==1.0.1
 #keras==2.6.0
-Keras-Preprocessing==1.1.2
+keras
+Keras-Preprocessing
+#Keras-Preprocessing==1.1.2
 Markdown==3.3.4
 MarkupSafe==2.0.1
 matplotlib-inline==0.1.3
