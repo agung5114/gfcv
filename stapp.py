@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 import streamlit.components.v1 as components
 # import matplotlib.pyplot as plt
-from tensorflow import keras
+import tensorflow as tf 
 import joblib
 import operator
 import sys
@@ -55,10 +55,10 @@ def scrapeRecipe(url):
 #     nutrients = scraper.nutrients()
     return {'ingredient':ingredient,'ingredients':ingredients,'instructions':instructions}
 
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
-from keras.applications.mobilenet import preprocess_input
-from keras.applications.mobilenet import decode_predictions
+from tf.keras.preprocessing.image import load_img
+from tf.keras.preprocessing.image import img_to_array
+from tf.keras.applications.mobilenet import preprocess_input
+from tf.keras.applications.mobilenet import decode_predictions
 
 from PIL import Image
 sys.modules['Image'] = Image 
